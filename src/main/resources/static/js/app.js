@@ -1,0 +1,1 @@
+angular.module("gameChatApp", ["ngRoute", "ngSanitize", "ui.bootstrap", "angucomplete"]);

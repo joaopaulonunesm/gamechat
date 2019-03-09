@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="gameChatApp">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="author" content="@gamechat" />
+  <title>Gamechat</title>
+  <link href="img/ico.ico" rel="shortcut icon" />
+
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-route.js"></script>
+  <script src="lib/angular/angular-sanitize.js"></script>
+
+  <!-- Necessário para os models mas perde o nosso bootstrap 4 -->
+  <script src="lib/js/ui-bootstrap-tpls-0.12.0.js"></script>
+  <link href="css/bootstrap3.min.css" rel="stylesheet" />
+
+  <script src="lib/js/moment.js"></script>
+
+  <script src="js/app.js"></script>
+
+  <script src="js/config/interceptorConfig.js"></script>
+  <script src="js/config/routeConfig.js"></script>
+
+  <script src="js/value/baseUrl.js"></script>
+
+  <script src="js/interceptors/tokenInterceptor.js"></script>
+
+  <script src="js/directive/modalLike.js"></script>
+  <script src="js/directive/modalSharing.js"></script>
+  <script src="js/directive/modalViewPublication.js"></script>
+
+  <script src="js/controller/gameChatAppCtrl.js"></script>
+
+  <script src="js/controller/login/loginCtrl.js"></script>
+  
+  <script src="js/controller/publication/publicationCtrl.js"></script>
+  <script src="js/controller/publication/onePublicationCtrl.js"></script>
+  
+  <script src="js/controller/user/userCtrl.js"></script>
+  
+  <script src="js/controller/game/gameCtrl.js"></script>
+  
+  <script src="js/controller/profile/profileCtrl.js"></script>
+  
+  <script src="js/controller/changeProfile/changeProfileCtrl.js"></script>
+
+  <script src="js/controller/follow/followsCtrl.js"></script>
+  <script src="js/controller/follow/followersCtrl.js"></script>
+  <script src="js/controller/follow/toFollowCtrl.js"></script>
+  <script src="js/controller/follow/followsByNickNameCtrl.js"></script>
+  <script src="js/controller/follow/followersByNickNameCtrl.js"></script>
+  <script src="js/controller/follow/suggestionByFollowsCtrl.js"></script>
+  <script src="js/controller/follow/suggestionByFollowCtrl.js"></script>
+
+  <script src="js/controller/like/toLikeCtrl.js"></script>
+  <script src="js/controller/sharing/toSharingCtrl.js"></script>
+  <script src="js/controller/viewPublication/viewPublicationCtrl.js"></script>
+  <script src="js/controller/comment/commentCtrl.js"></script>
+
+  <script src="js/filters/momentFilter.js"></script>
+  <script src="js/filters/playingFilter.js"></script>
+
+  <script src="js/services/loginAPIService.js"></script>
+  <script src="js/services/userAPIService.js"></script>
+  <script src="js/services/publicationAPIService.js"></script>
+  <script src="js/services/gameAPIService.js"></script>
+  <script src="js/services/followAPIService.js"></script>
+  <script src="js/services/commentAPIService.js"></script>
+  <script src="js/services/likeAPIService.js"></script>
+  <script src="js/services/shareAPIService.js"></script>
+  <script src="js/services/viewAPIService.js"></script>
+
+  <link href="css/style-login.css" rel="stylesheet" />
+  <link href="css/style-home.css" rel="stylesheet" />
+  <link href="css/navbar-top.css" rel="stylesheet" />
+  <link href="css/bootstrap.min.login.css" rel="stylesheet" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/angucomplete.css"/>
+ 
+  <script src="https://use.fontawesome.com/e036b100ce.js"></script>
+
+</head>
+
+<body>
+
+  <ng-view></ng-view>
+
+  <script src="lib/js/jquery-3.1.1.slim.min.js" ></script>
+  <script src="lib/js/tether.min.js"></script>
+  <script src="lib/js/bootstrap.min.js"></script>
+  <script src="lib/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="lib/js/angucomplete.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<div class="card">
+  <div class="card-header">
+    <h5>Publicar  <a class="btn btn-secondary btn-sm pull-right"><i class="fa fa-globe" aria-hidden="true"></i> Público</a>
+    </h5>
+  </div>
+
+  <form name="formNewPublication" class="card-block" style="margin-top: 10px"> 
+
+    <div class="pull-left">
+      <img class="avatar rounded pull-left" ng-controller="userCtrl" ng-src="{{user.profilePicture}}" alt="" />
+    </div>
+    <div class="media-body">
+      <textarea class="form-control" rows="3" ng-model="publication.text" required placeholder="O que você esta jogando?" id="publicationText"></textarea>
+    </div>
+
+    <div class="col-md-12" style="margin:12px; text-align:left; margin-left:-10px;">
+
+      <button type="button" class="btn btn-gc btn"  data-toggle="modal" data-target="#picture"><i class="fa fa-picture-o"></i></button>
+      
+      <!--modal-->
+      <div id="picture" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Insira a URL da imagem</h4>
+            </div>
+            
+            <div class="modal-body">
+              <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="publication.picture" placeholder="Url" id="urlPicture" />
+              </div>
+
+              <button type="button" class="btn btn-default" ng-click="addPictureModal(publication.picture)"><i class="fa fa-plus"></i></button>
+              <button type="button" class="btn btn-default" ng-click="removePictureModal()"><i class="fa fa-minus"></i></button>
+
+              <br><br><br>
+
+              <div style="text-align: center;" ng-bind-html="htmlSafe(picture)"></div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-gc" data-dismiss="modal">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-gc btn"><i class="fa fa-video-camera"></i></button>
+
+      <select class="select-temp" ng-controller="gameCtrl" ng-model="publication.game.id" id="game">
+        <option  value="" >O que está jogando?</option>
+        <option ng-repeat="game in games" ng-value={{game.id}}>
+          {{game.name}}
+        </option>
+      </select>
+
+    <button style="margin-right:-22px;" class="btn btn-gc pull-right" ng-disabled="formNewPublication.$invalid" ng-click="createPublication()">
+      <i class="fa fa-paper-plane-o" aria-hidden="true"></i> Publicar
+    </button>
+    </div>
+  </form>
+</div>

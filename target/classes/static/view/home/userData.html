@@ -1,0 +1,39 @@
+<div class="card" ng-controller="userCtrl">
+ <img class="card-img-top" ng-src="{{ user.coverPicture }}">
+  <div class="card-block" style="text-align: center">
+    <figure class="profile">
+      <img ng-src="{{ user.profilePicture }}" class="profile-avatar" alt="">
+    </figure>
+    <br>
+    <br>
+    <h4 class="card-title mt-3"><a ng-href="#/{{ user.nickName }}"> {{ user.name }} "{{ user.nickName }}" {{ user.lastName }} </a></h4>
+    <h6 class="card-subtitle mb-2 text-muted"><a ng-href="#/{{ user.nickName }}">@{{ user.nickName }}</a></h6>
+    <p class="card-text">{{ user.description }}</p>
+
+  </div>
+  <div class="card-footer">
+    <div class="row" >
+
+        <div class="col-md-4">
+          <a ng-href="#/{{ user.nickName }}" class="card-link">Publicações</a>
+        </div>
+        <div class="col-md-4">
+          <a ng-href="#/{{ user.nickName }}/following" class="card-link">Seguindo</a>
+        </div>
+        <div class="col-md-4">
+          <a href="#/{{ user.nickName }}/followers" class="card-link">Seguidores</a>
+        </div>
+        
+        <div class="col-md-4">
+          <a ng-href="#/{{ user.nickName }}" class="card-link"> {{ user.amountPublications }} </a>
+        </div>
+        <div class="col-md-4">
+          <a ng-href="#/{{ user.nickName }}/following" class="card-link"> {{ user.amountFollowings }} </a>
+        </div>
+        <div class="col-md-4">
+          <a href="#/{{ user.nickName }}/followers" class="card-link"> {{ user.amountFollowers }} </a>
+        </div>
+
+    </div>
+  </div>
+</div>

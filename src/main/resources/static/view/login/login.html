@@ -1,0 +1,37 @@
+<div ng-include="'view/login/navbarLogin.html'"></div>
+
+<div class="container">
+  <div class="card card-login">
+    <div class="card-block">
+
+      <form name="formLogin" class="form-login">
+        <div class="form-group">
+          <label class="label-login">Usuário</label>
+          <div class="input-group">
+            <span class="input-group-addon input-group-addon-login"><i class="fa fa-user" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" placeholder="" required ng-model="user.username">
+          </div>
+
+          <br>
+
+          <div class="form-group">
+            <label class="label-login">Senha</label>
+            <div class="input-group input-login">
+              <span class="input-group-addon input-group-addon-login"><i class="fa fa-lock" aria-hidden="true"></i></span>
+              <input type="password" class="form-control" placeholder="" required ng-model="user.password">
+            </div>
+          </div>
+          <button class="btn btn-gc btn-block" type="submit" ng-disabled="formLogin.$invalid" ng-click="authentication()">Entrar</button>
+
+          <br>  <br>
+
+          <a href="#/signup"> 
+            <button class="btn btn-gc btn-block" type="submit">Inscreva-se</button>
+          </a>
+
+          <br>
+
+        </form>
+      </div>
+    </div>
+</div>

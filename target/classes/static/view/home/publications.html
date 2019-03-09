@@ -1,0 +1,113 @@
+<div class="card">
+  
+  <div class="card-header">
+    <div class="panel-heading">
+      <h5>Publicações</h5>
+    </div>
+  </div> 
+
+  <a ng-if="diferentPublication > 0" href="" ng-click="refreshPublications()">
+    <div class="card">
+      <div class="card-header">
+        <div class="panel-heading">
+          <h6 style="text-align: center">({{diferentPublication}}) Novas Publicações</h6>
+        </div>  
+      </div>
+    </div>    
+  </a> 
+    
+  <div class="card" ng-repeat="pub in publications" id="divPublications">
+    <div class="card-header">
+      <div class="panel-heading">
+        <img class="avatar rounded pull-left" ng-src="{{pub.user.profilePicture}}" alt="PhotoProfile" />
+        <h5><a ng-href="#/{{pub.user.nickName}}">{{pub.user.nickName}}</a></h5>
+        <h6 style="font-size:12px;">
+          <a ng-href="#/publication/{{pub.id}}" ng-controller="viewPublicationCtrl" ng-click="toView(pub.id)"> 
+            {{pub.createDate | moment}}
+          </a>
+        </h6>
+        <h6 style="font-size:12px;"><a>{{pub.game.name | playing}}</a></h6>
+      </div>
+    </div>
+
+    <div class="card-block" style="line-height:1">
+      <p style="font-size:12px;" >{{pub.text}}</p>
+    </div>
+
+    <a href="#/" ng-bind-html="htmlSafe(pub.picture)" style="text-align: center"></a>
+        
+    <br>
+
+    <div class="card-footer">
+      <div class="col-md-12" style="margin:12px; text-align:right; margin-left:-10px;">
+
+        <a class="pull-left" style="margin-right:10px;" href="" ng-controller="toLikeCtrl" ng-click="toLike(pub.id)">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+          Curtir 
+        </a>
+
+        <a class="pull-left" style="margin-right:10px;" href="" ng-controller="toSharingCtrl" ng-click="toSharing(pub.id)">
+          <i class="fa fa-share" aria-hidden="true"></i> 
+          Compartilhar 
+        </a>
+
+        <a style="margin-right:10px;" href="" ng-controller="toLikeCtrl" ng-click="open(pub.id)">
+          {{ pub.amountLikes }} Curtidas 
+        </a>
+
+        <a style="margin-right:10px;" href="" ng-controller="toSharingCtrl" ng-click="open(pub.id)">
+          {{ pub.amountShares }} Compartilhamentos 
+        </a>
+
+        <div ng-include="'view/modal/modalLikes.html'"></div>
+        <div ng-include="'view/modal/modalSharings.html'"></div>
+        <div ng-include="'view/modal/modalViewPublication.html'"></div>
+
+      </div>
+       
+      <div class="col-md-12" style="margin:12px; margin-left:-10px; margin-top: 10px" ng-controller="commentCtrl" ng-init="usersComments(pub.id)">
+              
+        <form name="formComment" class="media">
+          <div class="pull-left">
+            <img class="media-object rounded" ng-controller="userCtrl" ng-src="{{user.profilePicture}}" width="30px" height="30px" style="margin-left:3px; margin-right:10px;">
+          </div>
+          <div class="media-body">
+            <textarea id="textComment" class="form-control" style="border-radius:0px;" rows="1" ng-model="comment.text" required placeholder="Comentar"></textarea>
+          </div>
+          <button class="btn btn-gc pull-right" ng-disabled="formComment.$invalid" ng-click="toComment(pub.id)">
+            <i class="fa fa-commenting-o" aria-hidden="true"></i> Comentar
+          </button>
+        </form>
+
+        <br>
+        
+        <div class="card bottom" ng-if="comments.length > 0">
+          <div class="list-group">
+            <li ng-repeat="comment in comments | limitTo: 4" class="list-group-item">
+              <img class="media-object rounded" ng-controller="userCtrl" ng-src="{{comment.user.profilePicture}}" width="30px" height="30px" style="margin-left:3px; margin-right:10px;">
+  
+              <div class="col-md-9" style="text-align: left">
+                <p>
+                  <a ng-href="#/{{comment.user.nickName}}"><strong>{{comment.user.nickName}}</strong></a> {{comment.text}}
+                </p>
+              </div>
+
+              <div class="col-md-2">
+                {{comment.commentMoment | moment}}
+              </div>      
+            </li>
+          </div>
+          <div class="card-footer" ng-if="comments.length > 4">
+            <div class="row" >
+              <div class="col-md-12">
+                <a ng-href="#/publication/{{pub.id}}" class="card-link">Ver mais</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+    </div>
+
+  </div>
+</div>
