@@ -1,9 +1,12 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,10 +25,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthenticatedTokenController {
 
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Post de autenticação de Token
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -37,22 +40,23 @@ public class AuthenticatedTokenController {
 
 		AuthenticatedToken newAuthenticatedToken = new AuthenticatedToken();
 
-		Date expirationDate = new Date(System.currentTimeMillis() + 240 * 60 * 1000);
+		LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(3);
 
 		String token = Jwts.builder().setSubject(loginAuthenticated.getUsername())
-				.signWith(SignatureAlgorithm.HS512, "autenticando").setExpiration(expirationDate).compact();
+				.signWith(SignatureAlgorithm.HS512, "autenticando").setExpiration(Date.from(expirationDate.atZone(ZoneId.systemDefault()).toInstant())).compact();
 
-		if (existenceToken != null && existenceToken.getExpirationDate().after(new Date())) {
+		if (existenceToken != null && existenceToken.getExpirationDate().isAfter(LocalDateTime.now())) {
 
 			return new ResponseEntity<>(existenceToken, HttpStatus.OK);
 
-		} else if (existenceToken != null && existenceToken.getExpirationDate().before(new Date())) {
+		} else if (existenceToken != null && existenceToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 
 			newAuthenticatedToken.setId(existenceToken.getId());
 		}
 
 		newAuthenticatedToken.setLogin(loginAuthenticated);
 		newAuthenticatedToken.setToken(token);
+
 		newAuthenticatedToken.setExpirationDate(expirationDate);
 
 		return new ResponseEntity<>(authenticatedTokenService.save(newAuthenticatedToken), HttpStatus.OK);
@@ -64,7 +68,7 @@ public class AuthenticatedTokenController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

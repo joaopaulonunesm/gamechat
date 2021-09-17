@@ -5,15 +5,17 @@ import org.springframework.stereotype.Repository;
 
 import com.gamechat.model.Login;
 
+import java.util.Optional;
+
 @Repository
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
-	public Login findByUserNickName(String nickName);
+    Optional<Login> findByUserNickName(String nickName);
 
-	public Login findByUsername(String username);
+    Optional<Login> findByUsername(String username);
 
-	public Login findByEmail(String email);
+    Optional<Login> findByEmail(String email);
 
-	public Login findByUserId(Long id);
+    Optional<Login> findByUserId(Long id);
 
 }

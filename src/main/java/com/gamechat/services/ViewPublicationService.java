@@ -3,6 +3,7 @@ package com.gamechat.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import com.gamechat.model.ViewPublication;
 import com.gamechat.repositories.ViewPublicationRepository;
 
 @Service
+@RequiredArgsConstructor
 public class ViewPublicationService {
 
-	@Autowired
-	private ViewPublicationRepository viewPublicationRepository;
+	private final ViewPublicationRepository viewPublicationRepository;
 
 	// Salvar visualização
 	public ViewPublication save(ViewPublication view) {
@@ -43,7 +44,7 @@ public class ViewPublicationService {
 
 	// View Publication especifico de um usuario e de uma publicação
 	public ViewPublication findByUserIdAndPublicationId(Long id, Long idPublication) {
-		return viewPublicationRepository.findByUserIdAndPublicationId(id, idPublication);
+		return viewPublicationRepository.findByUserIdAndPublicationId(id, idPublication).orElseThrow(() -> new RuntimeException("Erro ao buscar views da publicação de um usuário"));
 	}
 
 	// Todas as views de um usuario

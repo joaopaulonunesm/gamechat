@@ -3,16 +3,17 @@ package com.gamechat.services;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.gamechat.model.User;
 import com.gamechat.repositories.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	@Autowired
-	UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	// Usada apenas para alterar usuario
 	public User save(User user) {
@@ -43,6 +44,6 @@ public class UserService {
 
 	// Buscar usuário por nickname
 	public User findByNickNameIgnoreCase(String nickName) {
-		return userRepository.findByNickNameIgnoreCase(nickName);
+		return userRepository.findByNickNameIgnoreCase(nickName).orElseThrow(() -> new RuntimeException("Usuário por nickname não encontrado"));
 	}
 }

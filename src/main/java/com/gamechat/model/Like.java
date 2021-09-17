@@ -1,5 +1,10 @@
 package com.gamechat.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,6 +21,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "like_publication")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Like {
 
 	@Id
@@ -31,39 +39,5 @@ public class Like {
 	@JoinColumn(name = "id_user_liked")
 	private User user;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date moment;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Publication getPublication() {
-		return publication;
-	}
-
-	public void setPublication(Publication publication) {
-		this.publication = publication;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Date getMoment() {
-		return moment;
-	}
-
-	public void setMoment(Date moment) {
-		this.moment = moment;
-	}
-
+	private LocalDateTime moment;
 }

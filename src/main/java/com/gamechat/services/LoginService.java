@@ -2,6 +2,7 @@ package com.gamechat.services;
 
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,31 +12,17 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.LoginRepository;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
-	@Autowired
-	private LoginRepository loginRepository;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
-
-	@Autowired
-	private CommentService commentService;
-
-	@Autowired
-	private FollowService followService;
-
-	@Autowired
-	private LikeService likeService;
-
-	@Autowired
-	private SharingService sharingService;
-
-	@Autowired
-	private ViewPublicationService viewPublicationService;
-
-	@Autowired
-	private PublicationService publicationService;
+	private final LoginRepository loginRepository;
+	private final AuthenticatedTokenService authenticatedTokenService;
+	private final CommentService commentService;
+	private final FollowService followService;
+	private final LikeService likeService;
+	private final SharingService sharingService;
+	private final ViewPublicationService viewPublicationService;
+	private final PublicationService publicationService;
 
 	// Criar login
 	public Login save(Login login) {
@@ -80,22 +67,22 @@ public class LoginService {
 
 	// Buscar login por username
 	public Login findByUsername(String username) {
-		return loginRepository.findByUsername(username);
+		return loginRepository.findByUsername(username).orElseThrow(() -> new RuntimeException(""));
 	}
 
 	// Buscar login por username
 	public Login findByUserId(Long id) {
-		return loginRepository.findByUserId(id);
+		return loginRepository.findByUserId(id).orElseThrow(() -> new RuntimeException(""));
 	}
 
 	// Validar campos para criação de login
 	public boolean loginValidationByUsernameOrEmailOrNickName(Login login) {
 
-		Login userNickname = loginRepository.findByUserNickName(login.getUser().getNickName());
+		Login userNickname = loginRepository.findByUserNickName(login.getUser().getNickName()).get();
 
-		Login userUsername = loginRepository.findByUsername(login.getUsername());
+		Login userUsername = loginRepository.findByUsername(login.getUsername()).get();
 
-		Login userEmail = loginRepository.findByEmail(login.getEmail());
+		Login userEmail = loginRepository.findByEmail(login.getEmail()).get();
 
 		return userNickname != null || userUsername != null || userEmail != null;
 	}

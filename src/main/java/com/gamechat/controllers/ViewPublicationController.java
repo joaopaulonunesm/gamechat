@@ -1,8 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,16 +26,12 @@ import com.gamechat.services.ViewPublicationService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class ViewPublicationController {
 
-	@Autowired
-	private ViewPublicationService viewPublicationService;
-
-	@Autowired
-	private PublicationService publicationService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final ViewPublicationService viewPublicationService;
+	private final PublicationService publicationService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Criar visualização para uma publicação
 	@RequestMapping(value = "/viewPublication", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,7 +40,7 @@ public class ViewPublicationController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -55,7 +53,7 @@ public class ViewPublicationController {
 
 		viewPublication.setUser(user);
 
-		viewPublication.setMoment(new Date());
+		viewPublication.setMoment(LocalDateTime.now());
 
 		Publication publication = publicationService.findOne(viewPublication.getPublication().getId());
 		publication.setAmountViews(publication.getAmountViews() + 1);

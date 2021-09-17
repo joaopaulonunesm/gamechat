@@ -1,7 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,10 +19,10 @@ import com.gamechat.model.Login;
 import com.gamechat.services.LoginService;
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
 
-	@Autowired
-	private LoginService loginService;
+	private final LoginService loginService;
 
 	// Criar login validande se já existe um com o mesmo Nome, Email ou Nickname
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -31,7 +34,7 @@ public class LoginController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		login.setCreateDate(new Date());
+		login.setCreateDate(LocalDateTime.now());
 		login.setActive(true);
 		login.getUser().setAmountFollowings(0);
 		login.getUser().setAmountFollowers(0);

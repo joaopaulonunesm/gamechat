@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.gamechat.model.User;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	public User findByNickNameIgnoreCase(String nickName);
+	Optional<User> findByNickNameIgnoreCase(String nickName);
 
 }

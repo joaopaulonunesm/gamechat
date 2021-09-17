@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,11 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.PublicationRepository;
 
 @Service
+@RequiredArgsConstructor
 public class PublicationService {
 
-	@Autowired
-	PublicationRepository publicationRepository;
-
-	@Autowired
-	FollowService friendshipService;
+	private final PublicationRepository publicationRepository;
+	private final FollowService friendshipService;
 
 	// Criar publicação
 	public Publication save(Publication publication) {
@@ -79,21 +78,17 @@ public class PublicationService {
 	// Ordenar publicações por data. Do mais recente ao mais antigo
 	public void orderByCreateDate(List<Publication> myPublications) {
 
-		Comparator<Publication> comparator = new Comparator<Publication>() {
+		Comparator<Publication> comparator = (publication1, publication2) -> {
 
-			@Override
-			public int compare(Publication publication1, Publication publication2) {
-
-				if (publication1.getCreateDate().before(publication2.getCreateDate())) {
-					return 1;
-				}
-
-				if (publication1.getCreateDate().after(publication2.getCreateDate())) {
-					return -1;
-				}
-
-				return 0;
+			if (publication1.getCreateDate().isBefore(publication2.getCreateDate())) {
+				return 1;
 			}
+
+			if (publication1.getCreateDate().isAfter(publication2.getCreateDate())) {
+				return -1;
+			}
+
+			return 0;
 		};
 
 		myPublications.sort(comparator);

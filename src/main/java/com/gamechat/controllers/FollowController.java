@@ -1,11 +1,13 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,16 +28,12 @@ import com.gamechat.services.UserService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class FollowController {
 
-	@Autowired
-	private FollowService followService;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final FollowService followService;
+	private final UserService userService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Post para seguir uma pessoa
 	@RequestMapping(value = "/follow", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +42,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -62,7 +60,7 @@ public class FollowController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		follow.setMoment(new Date());
+		follow.setMoment(LocalDateTime.now());
 
 		user.setAmountFollowings(user.getAmountFollowings() + 1);
 		userService.save(user);
@@ -80,7 +78,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -115,7 +113,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -155,7 +153,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -195,7 +193,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -229,7 +227,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -261,7 +259,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -289,7 +287,7 @@ public class FollowController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

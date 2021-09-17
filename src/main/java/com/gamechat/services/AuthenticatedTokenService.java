@@ -2,6 +2,7 @@ package com.gamechat.services;
 
 import javax.servlet.ServletException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,12 @@ public class AuthenticatedTokenService {
 
 	// Buscar Autenticação por Token
 	public AuthenticatedToken findByToken(String token) {
-		return authenticatedTokenRepository.findByToken(token);
+		return authenticatedTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Erro ao buscar dados de autenticação pelo token " + token));
 	}
 
 	// Buscar Autenticação por Login
 	public AuthenticatedToken findByLoginId(Long id) {
-		return authenticatedTokenRepository.findByLoginId(id);
+		return authenticatedTokenRepository.findByLoginId(id).orElseThrow(() -> new RuntimeException("Erro ao buscar dados de autenticação pelo id " + id));
 	}
 
 	// Validar Login para gerar um token

@@ -1,8 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,13 +23,11 @@ import com.gamechat.services.UserService;
 
 @Controller
 @RequestMapping("/v1")
+@RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final UserService userService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Alterar informações do usuário
 	@RequestMapping(value = "/user", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -36,7 +36,7 @@ public class UserController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -88,7 +88,7 @@ public class UserController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

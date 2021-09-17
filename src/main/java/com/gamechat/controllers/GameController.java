@@ -2,6 +2,7 @@ package com.gamechat.controllers;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +18,10 @@ import com.gamechat.services.GameService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class GameController {
 
-	@Autowired
-	private GameService gameService;
+	private final GameService gameService;
 
 	//Criação de Game
 	@RequestMapping(value = "/game", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

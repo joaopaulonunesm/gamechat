@@ -1,8 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,16 +26,12 @@ import com.gamechat.services.PublicationService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class CommentController {
 
-	@Autowired
-	private CommentService commentService;
-
-	@Autowired
-	private PublicationService publicationService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final CommentService commentService;
+	private final PublicationService publicationService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Comentar em uma publicação
 	@RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,14 +40,14 @@ public class CommentController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
 		User user = authenticatedToken.getLogin().getUser();
 
 		comment.setUser(user);
-		comment.setMoment(new Date());
+		comment.setMoment(LocalDateTime.now());
 
 		Publication publication = publicationService.findOne(comment.getPublication().getId());
 		publication.setAmountComments(publication.getAmountComments() + 1);
@@ -65,7 +63,7 @@ public class CommentController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -90,7 +88,7 @@ public class CommentController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

@@ -1,8 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,16 +26,12 @@ import com.gamechat.services.SharingService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class SharingController {
 
-	@Autowired
-	private SharingService sharingService;
-
-	@Autowired
-	private PublicationService publicationService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final SharingService sharingService;
+	private final PublicationService publicationService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Compartilhar publicação
 	@RequestMapping(value = "/sharing", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -42,7 +40,7 @@ public class SharingController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -54,7 +52,7 @@ public class SharingController {
 
 		sharing.setUser(user);
 
-		sharing.setMoment(new Date());
+		sharing.setMoment(LocalDateTime.now());
 
 		Publication publication = publicationService.findOne(sharing.getPublication().getId());
 		publication.setAmountShares(publication.getAmountShares() + 1);
@@ -70,7 +68,7 @@ public class SharingController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

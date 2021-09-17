@@ -3,6 +3,7 @@ package com.gamechat.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.LikeRepository;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
 
-	@Autowired
-	private LikeRepository likeRepository;
+	private final LikeRepository likeRepository;
 
 	// Curtir
 	public Like save(Like like) {
@@ -45,7 +46,7 @@ public class LikeService {
 
 	// Curtida de um usuario para uma publicação especifica
 	public Like findByUserIdAndPublicationId(Long idUser, Long idPublication) {
-		return likeRepository.findByUserIdAndPublicationId(idUser, idPublication);
+		return likeRepository.findByUserIdAndPublicationId(idUser, idPublication).orElseThrow(() -> new RuntimeException("Erro ao buscar uma curtida do usuario para uma publicação especifica"));
 	}
 
 	// Todos os Likes de um user

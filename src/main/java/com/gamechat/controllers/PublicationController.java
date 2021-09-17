@@ -1,8 +1,10 @@
 package com.gamechat.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,19 +27,13 @@ import com.gamechat.services.UserService;
 
 @Controller
 @RequestMapping(value = "/v1")
+@RequiredArgsConstructor
 public class PublicationController {
 
-	@Autowired
-	private PublicationService publicationService;
-
-	@Autowired
-	private GameService gameService;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthenticatedTokenService authenticatedTokenService;
+	private final PublicationService publicationService;
+	private final GameService gameService;
+	private final UserService userService;
+	private final AuthenticatedTokenService authenticatedTokenService;
 
 	// Criar publicação
 	@RequestMapping(value = "/publication", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -46,7 +42,7 @@ public class PublicationController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -65,7 +61,7 @@ public class PublicationController {
 			publication.setGame(game);
 		}
 
-		publication.setCreateDate(new Date());
+		publication.setCreateDate(LocalDateTime.now());
 
 		user.setAmountPublications(user.getAmountPublications() + 1);
 		publication.setAmountLikes(0);
@@ -187,7 +183,7 @@ public class PublicationController {
 
 		AuthenticatedToken authenticatedToken = authenticatedTokenService.findByToken(token.substring(7));
 
-		if (authenticatedToken == null || authenticatedToken.getExpirationDate().before(new Date())) {
+		if (authenticatedToken == null || authenticatedToken.getExpirationDate().isBefore(LocalDateTime.now())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 

@@ -3,6 +3,7 @@ package com.gamechat.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.CommentRepository;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-	@Autowired
-	private CommentRepository commentRepository;
+	private final CommentRepository commentRepository;
 
 	// Comentar
 	public Comment save(Comment comment) {
@@ -63,8 +64,7 @@ public class CommentService {
 
 	// Comentario de um usuario para uma publicação especifica
 	public Comment findByUserIdAndPublicationId(Long idUser, Long idPublication) {
-
-		return commentRepository.findByUserIdAndPublicationId(idUser, idPublication);
+		return commentRepository.findByUserIdAndPublicationId(idUser, idPublication).orElseThrow(() -> new RuntimeException("Erro ao buscar comentários de um usuario. IdUser: " + idUser + " idPublication: " + idPublication));
 	}
 
 	// Publicações que um usuário comentou

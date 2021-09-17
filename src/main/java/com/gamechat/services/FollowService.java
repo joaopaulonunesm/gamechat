@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,11 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.FollowRepository;
 
 @Service
+@RequiredArgsConstructor
 public class FollowService {
 
-	@Autowired
-	private FollowRepository followRepository;
-
-	@Autowired
-	private UserService userService;
+	private final FollowRepository followRepository;
+	private final UserService userService;
 
 	// Seguir
 	public Follow save(Follow follow) {
@@ -59,7 +58,7 @@ public class FollowService {
 
 	// Buscar relacionamento de um determinado usuario e alguem que ele segue
 	public Follow findByUserIdAndFollowingId(Long idUser, Long idFollowing) {
-		return followRepository.findByUserIdAndFollowingId(idUser, idFollowing);
+		return followRepository.findByUserIdAndFollowingId(idUser, idFollowing).orElseThrow(() -> new RuntimeException("Erro ao buscar relacionamento de um usuário com quem ele segue"));
 	}
 
 	// Buscar todos os usuarios que sigo

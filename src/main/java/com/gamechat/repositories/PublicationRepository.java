@@ -10,7 +10,5 @@ import com.gamechat.model.Publication;
 @Repository
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
 
-	List<Publication> findAllByUserIdOrderByCreateDateDesc(Long idUser);
-
-
+    List<Publication> findAllByUserIdOrderByCreateDateDesc(Long idUser);
 }

@@ -3,6 +3,7 @@ package com.gamechat.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,10 @@ import com.gamechat.model.User;
 import com.gamechat.repositories.SharingRepository;
 
 @Service
+@RequiredArgsConstructor
 public class SharingService {
 
-	@Autowired
-	private SharingRepository sharingRepository;
+	private final SharingRepository sharingRepository;
 
 	// Compartilhar
 	public Sharing save(Sharing sharing) {
@@ -61,9 +62,8 @@ public class SharingService {
 		return users;
 	}
 
-	// Compartilhação de um user para uma publicação especifica
 	public Sharing findByUserIdAndPublicationId(Long id, Long idPublication) {
-		return sharingRepository.findByUserIdAndPublicationId(id, idPublication);
+		return sharingRepository.findByUserIdAndPublicationId(id, idPublication).orElseThrow(() -> new RuntimeException("Erro ao buscar Compartilhamento de um usuário"));
 	}
 
 	// Publicações que um usuário compartilhou

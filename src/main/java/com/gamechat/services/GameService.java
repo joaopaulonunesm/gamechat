@@ -3,6 +3,7 @@ package com.gamechat.services;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,10 @@ import com.gamechat.model.Game;
 import com.gamechat.repositories.GameRepository;
 
 @Service
+@RequiredArgsConstructor
 public class GameService {
 
-	@Autowired
-	private GameRepository gameRepository;
+	private final GameRepository gameRepository;
 
 	// Criar um game
 	public Game save(Game game) {
